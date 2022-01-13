@@ -1,6 +1,6 @@
 package pt.ipl.ti.poo;
 
-public class Moradia extends Habitacao {
+public class Moradia extends Habitacao implements ImoveisQuePodemSerVendidos, ImoveisQuePodemSerAlugados{
     private final int pisos;
 
     public Moradia (String descricao, Localizacao localizacao, double area, int quartos,int pisos){
