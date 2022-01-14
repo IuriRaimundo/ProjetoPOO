@@ -1,4 +1,4 @@
-package pt.ipl.ti.poo;
+package pt.ipl.ti.poo.imobiliaria;
 
 public class Moradia extends Habitacao implements ImoveisQuePodemSerVendidos, ImoveisQuePodemSerAlugados{
     private final int pisos;

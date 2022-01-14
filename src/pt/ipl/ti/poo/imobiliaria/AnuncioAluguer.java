@@ -1,4 +1,6 @@
-package pt.ipl.ti.poo;
+package pt.ipl.ti.poo.imobiliaria;
+
+import pt.ipl.ti.poo.Data;
 
 public class AnuncioAluguer extends Anuncio {
     private final int duracao;

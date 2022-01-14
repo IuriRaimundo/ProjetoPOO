@@ -1,4 +1,4 @@
-package pt.ipl.ti.poo;
+package pt.ipl.ti.poo.imobiliaria;
 
 import java.util.LinkedList;
 

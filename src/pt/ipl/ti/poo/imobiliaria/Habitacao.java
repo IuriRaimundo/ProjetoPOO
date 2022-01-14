@@ -1,4 +1,4 @@
-package pt.ipl.ti.poo;
+package pt.ipl.ti.poo.imobiliaria;
 
 public abstract class Habitacao extends Imovel {
     private final int quartos;

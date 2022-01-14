@@ -1,16 +1,16 @@
 package pt.ipl.ti.poo;
 
-import java.util.LinkedList;
-import java.util.Arrays;
+import pt.ipl.ti.poo.imobiliaria.Imobiliaria;
+import pt.ipl.ti.poo.imobiliaria.Localizacao;
 import pt.ipl.ti.poo.menu.Menu;
 
 public class Main {
     // Opções do menu principal
-    private final LinkedList<String> opcoesMenu = new LinkedList<String>(Arrays.asList(
+    private final String[] opcoesMenu = {
             "Listar anúncios abertos", "Listar anúncios concretizados", "Inserir anúncio",
             "Registar anúncio como concretizado", "Estatísticas", "Gravar dados", "Carregar dados",
             "Sair"
-    ));
+    };
 
     Imobiliaria imobiliariaAtiva;
 
