@@ -28,4 +28,9 @@ public class Localizacao {
     public String getCodigoPostal(){
         return codigoPostal;
     }
+
+    @Override
+    public String toString() {
+        return "Localização: " + morada + ", " + cidade + ", " + codigoPostal + ", " + pais + "\n";
+    }
 }

@@ -16,4 +16,9 @@ public abstract class Descritor {
     public Localizacao getLocalizacao(){
         return localizacao;
     }
+
+    @Override
+    public String toString() {
+        return "Nome: " + descricao + "\n" + localizacao.toString();
+    }
 }
