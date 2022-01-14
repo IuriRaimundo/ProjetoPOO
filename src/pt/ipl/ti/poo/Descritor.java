@@ -1,6 +1,6 @@
 package pt.ipl.ti.poo;
 
-public class Descritor {
+public abstract class Descritor {
     private final String descricao;
     private final Localizacao localizacao;
 

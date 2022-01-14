@@ -1,6 +1,6 @@
 package pt.ipl.ti.poo;
 
-public class Imovel extends Descritor {
+public abstract class Imovel extends Descritor {
     private final double area;
 
     public Imovel(String descricao, Localizacao localizacao, double area){
