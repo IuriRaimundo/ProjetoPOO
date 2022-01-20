@@ -6,4 +6,12 @@ public class Apartamento extends Habitacao implements ImoveisQuePodemSerVendidos
         super(descricao, localizacao, area, quartos);
     }
 
+    /**
+    * Função para listar os parâmetros no Main
+    * @return do super
+    */
+    @Override
+    public String toString() {
+        return "\tTipo: Apartamento\n" + super.toString() + "\n";
+    }
 }

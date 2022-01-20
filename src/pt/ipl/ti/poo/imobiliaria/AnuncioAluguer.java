@@ -10,6 +10,10 @@ public class AnuncioAluguer extends Anuncio {
         this.duracao = duracao;
     }
 
+    /**
+     * Função para obter a duração do aluguer
+     * @return Duração do aluguer, em meses.
+     */
     public int getDuracao(){
         return duracao;
     }

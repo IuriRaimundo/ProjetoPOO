@@ -13,6 +13,10 @@ public abstract class  Anuncio {
         this.imovel = imovel;
     }
 
+    /**
+     * Função para obter o preço do anúncio
+     * @return preço
+     */
     public double getPreco(){
         return preco;
     }
@@ -21,11 +25,38 @@ public abstract class  Anuncio {
         return data;
     }
 
+    /**
+     * Função para alterar o preço
+     * @param preco Preço do anúncio
+     */
     public void setPreco(double preco) {
         this.preco = preco;
     }
 
-    public Imovel getImovel(){
-        return imovel;
+    /**
+     * Função para obter a data de concretização
+     * @return data de concretização
+     */
+    public Data getDataConcretizacao() {
+        return dataConcretizacao;
+    }
+
+    /**
+     * Função para registar concretizado
+     * Se o anuncio já estiver concretizado, é lançada uma exceção
+     * @throws AnuncioJaConcretizadoException
+     */
+    public void registarConcretizado() throws AnuncioJaConcretizadoException {
+        if (dataConcretizacao != null) throw new AnuncioJaConcretizadoException();
+        dataConcretizacao = Data.getDataAtual();
+    }
+
+    /**
+     * Função para listar os parâmetros no Main
+     * @return data de publicação e preço
+     */
+    @Override
+    public String toString() {
+        return "Publicado em " + dataPublicacao.toString() + "\n\tPreço: " + preco + "\n";
     }
 }

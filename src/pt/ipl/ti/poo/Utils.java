@@ -7,6 +7,9 @@ public abstract class Utils {
 
     public static final Scanner SCANNER = new Scanner(System.in);
 
+    /**
+     * Função para fechar o scanner
+     */
     public static void fecharScanner() {
         SCANNER.close();
     }
@@ -19,6 +22,12 @@ public abstract class Utils {
         return lerInteiro(Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
+    /**
+     * lerInteiro com limites
+     * @param min Número mínimo a ser aceite
+     * @param max Número máximo a ser aceite
+     * @return Inteiro introduzido pelo utilizador
+     */
     public static int lerInteiro(int min, int max) {
         return lerInteiro(min, max, "Número inválido, repita a inserção");
     }
@@ -50,6 +59,10 @@ public abstract class Utils {
         return n;
     }
 
+    /**
+     * lerDouble sem limites
+     * @return Double introduzido pelo utilizador
+     */
     public static double lerDouble() {
         return lerDouble(Double.MIN_VALUE, Double.MAX_VALUE);
     }
@@ -82,6 +95,11 @@ public abstract class Utils {
         return n;
     }
 
+    /**
+     * Função para ler uma string através da consola.
+     * A solicitação de entrada ao utilizador repete-se até que seja inserido uma string não vazia.
+     * @return String inserida pelo utilizador
+     */
     public static String lerString() {
         String string;
         do {

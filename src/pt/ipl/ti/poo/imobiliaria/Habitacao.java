@@ -8,7 +8,20 @@ public abstract class Habitacao extends Imovel {
         this.quartos = quartos;
     }
 
+    /**
+     * Função para obter os quartos
+     * @return número de quartos
+     */
     public int getQuartos(){
         return quartos;
+    }
+
+    /**
+     * Função para listar os parâmetros no Main
+     * @return do super e dos quartos
+     */
+    @Override
+    public String toString() {
+        return super.toString() + "\tQuartos: " + quartos;
     }
 }

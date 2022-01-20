@@ -1,10 +1,14 @@
 package pt.ipl.ti.poo;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.TimeZone;
 
 public class Data implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
     private final int dia;
     private final int mes;
     private final int ano;
