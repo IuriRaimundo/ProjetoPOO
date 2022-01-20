@@ -3,6 +3,9 @@ package pt.ipl.ti.poo;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Classe de utilidades, contém uma instância do Scanner e métodos auxiliares ao resto do programa.
+ */
 public abstract class Utils {
 
     public static final Scanner SCANNER = new Scanner(System.in);
@@ -15,8 +18,8 @@ public abstract class Utils {
     }
 
     /*
-    lerInteiro sem parametros simplesmente chama o lerInteiro com os limites
-    dos números inteiros
+     * lerInteiro sem limites
+     * @return Inteiro introduzido pelo utilizador
     */
     public static int lerInteiro() {
         return lerInteiro(Integer.MIN_VALUE, Integer.MAX_VALUE);
@@ -29,8 +32,17 @@ public abstract class Utils {
      * @return Inteiro introduzido pelo utilizador
      */
     public static int lerInteiro(int min, int max) {
-        return lerInteiro(min, max, "Número inválido, repita a inserção");
+        return lerInteiro(min, max, "Número inválido, repita a inserção: ");
     }
+
+    /**
+     * Função para ler números inteiros através da consola. <br>
+     * A solicitação de entrada ao utilizador repete-se até que seja inserido um valor válido.
+     * @param min Número mínimo a ser aceite
+     * @param max Número máximo a ser aceite
+     * @param fallback Mensagem apresentada quando for introduzido um valor fora do intervalo de números aceite
+     * @return Inteiro introduzido pelo utilizador
+     */
     public static int lerInteiro(int min, int max, String fallback) {
         boolean isValid;
         int n = 0;
@@ -53,7 +65,7 @@ public abstract class Utils {
                 isValid = false;
                 System.out.print("Insira um número inteiro: ");
             }
-            SCANNER.nextLine(); // Limpar '\n'
+            SCANNER.nextLine(); // Limpar \n do buffer
         } while (!isValid);
 
         return n;
@@ -67,7 +79,25 @@ public abstract class Utils {
         return lerDouble(Double.MIN_VALUE, Double.MAX_VALUE);
     }
 
+    /**
+     * lerDouble com limites
+     * @param min Valor mínimo aceite
+     * @param max Valor máximo aceite
+     * @return Double introduzido pelo utilizador
+     */
     public static double lerDouble(double min, double max) {
+        return lerDouble(Double.MIN_VALUE, Double.MAX_VALUE, "Número inválido, repita a inserção");
+    }
+
+    /**
+     * Função para ler um Double através da consola <br>
+     * A solicitação de entrada ao utilizador repete-se até que seja inserido um valor válido.
+     * @param min Valor mínimo aceite
+     * @param max Valor máximo aceite
+     * @param fallback Mensagem apresentada ao utilizador quando um valor fora do limite é inserido.
+     * @return Double introduzido pelo utilizador
+     */
+    public static double lerDouble(double min, double max, String fallback) {
         boolean isValid;
         double n = 0;
         if (max < min) {
@@ -80,7 +110,7 @@ public abstract class Utils {
             try {
                 n = SCANNER.nextDouble();
                 if (n < min || n > max) {
-                    System.out.print("Número inválido, repita a inserção: ");
+                    System.out.print(fallback);
                     isValid = false;
                 } else {
                     isValid = true;
@@ -110,6 +140,18 @@ public abstract class Utils {
         } while (string.isBlank());
 
         return string.trim();
+    }
+
+    /**
+     * Calcula a percentagem da razão de dois números
+     * Devolve 0 caso um dos números inseridos seja menor ou igual a 0.
+     * @param numerador Numerador da fração
+     * @param denominador Denominador da fração
+     * @return Valor da percentagem
+     */
+    public static float calcularPercentagem(double numerador, double denominador) {
+        if (denominador <= 0 || numerador <= 0) return 0;
+        return (float) Math.round((numerador / denominador * 1000)) / 10;
     }
 
 }

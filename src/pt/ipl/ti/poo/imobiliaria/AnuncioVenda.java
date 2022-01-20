@@ -21,4 +21,20 @@ public class AnuncioVenda extends Anuncio implements Serializable {
         this.imovel = imovel;
     }
 
+    /**
+     * Função para obter imóvel do tipo que podem ser vendidos
+     * @return imóvel do mesmo tipo
+     */
+    public ImoveisQuePodemSerVendidos getImovel() {
+        return imovel;
+    }
+
+    /**
+     * Função para listar os parâmetros no Main
+     * @return do super e do imóvel
+     */
+    @Override
+    public String toString() {
+        return "\nAnúncio Venda" + super.toString() + imovel.toString();
+    }
 }

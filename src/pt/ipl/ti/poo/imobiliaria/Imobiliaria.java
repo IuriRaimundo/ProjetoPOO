@@ -1,5 +1,11 @@
 package pt.ipl.ti.poo.imobiliaria;
 
+import pt.ipl.ti.poo.Data;
+import pt.ipl.ti.poo.Utils;
+import pt.ipl.ti.poo.imobiliaria.excecoes.AnuncioJaConcretizadoException;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
@@ -13,10 +19,23 @@ public class Imobiliaria extends Descritor implements Serializable {
     private final LinkedList<Anuncio> anunciosAtivos;
     private final LinkedList<Anuncio> anunciosConcretizados;
 
+    private int contAnunciosVendaAtivos;
+    private int contAnunciosVendaConcretizados;
+    private int contAnunciosAluguerAtivos;
+    private int contAnunciosAluguerConcretizados;
+
+    /**
+     * @param  descricao  Descrição / Nome da Imobiliária
+     * @param  localizacao Localização da imobiliária
+     */
     public Imobiliaria(String descricao, Localizacao localizacao){
         super(descricao, localizacao);
         anunciosAtivos = new LinkedList<>();
         anunciosConcretizados = new LinkedList<>();
+        contAnunciosVendaAtivos = 0;
+        contAnunciosVendaConcretizados = 0;
+        contAnunciosAluguerAtivos = 0;
+        contAnunciosAluguerConcretizados = 0;
     }
 
     /**
@@ -138,5 +157,142 @@ public class Imobiliaria extends Descritor implements Serializable {
 
         // Adicionar à lista de anúncios concretizados
         anunciosConcretizados.add(anuncio);
+        System.out.println("Anúncio concretizado com sucesso!");
+    }
+
+    /**
+     * Função para obter o total de anúncios de venda ativos
+     * @return Número de anúncios de venda ativos
+     */
+    public int getTotalAnunciosVendaAtivos() {
+        return contAnunciosVendaAtivos;
+    }
+
+    /**
+     * Função para obter o total de anúncios de venda concretizados
+     * @return Número de anúncios de venda concretizados
+     */
+    public int getTotalAnunciosVendaConcretizados() {
+        return contAnunciosVendaConcretizados;
+    }
+
+    /**
+     * Função para obter o total de anúncios de aluguer ativos
+     * @return Número de anúncios de aluguer ativos
+     */
+    public int getTotalAnunciosAluguerAtivos() {
+        return contAnunciosAluguerAtivos;
+    }
+
+    /**
+     * Função para obter o total de anúncios de aluguer concretizados
+     * @return Número de anúncios de aluguer concretizados
+     */
+    public int getTotalAnunciosAluguerConcretizados() {
+        return contAnunciosAluguerConcretizados;
+    }
+
+    /**
+     * Função para obter o total de anúncios ativos
+     * @return Número total de anúncios ativos
+     */
+    public int getTotalAnunciosAtivos() {
+        return contAnunciosVendaAtivos + contAnunciosAluguerAtivos;
+    }
+
+    /**
+     * Função para obter o total de anúncios concretizados
+     * @return Número total de anúncios concretizados
+     */
+    public int getTotalAnunciosConcretizados() {
+        return contAnunciosVendaConcretizados + contAnunciosAluguerConcretizados;
+    }
+
+    /**
+     * Função para obter o total de anúncios
+     * @return Número total de anúncios
+     */
+    public int getTotalAnuncios() {
+        return getTotalAnunciosAtivos() + getTotalAnunciosConcretizados();
+    }
+
+    /**
+     * Função para obter a percentagem de anúncios ativos
+     * @return A percentagem obtida pelo total de anúncios ativos a dividir pelo total de anúncios a multiplicar por 100
+     * Percentagem de anúncios ativos
+     */
+    public float getPercAnunciosAtivos() {
+        int totalAnuncios = getTotalAnuncios() + getTotalAnunciosConcretizados();
+        return Utils.calcularPercentagem(getTotalAnunciosAtivos(), totalAnuncios);
+    }
+
+    /**
+     * Função para obter a percentagem de anúncios concretizados
+     * A percentagem obtida pelo total de anúncios concretizados a dividir pelo total de anúncios a multiplicar por 100
+     * @return Percentagem de anúncios concretizados
+     */
+    public float getPercAnunciosConcretizados() {
+        int totalAnuncios = getTotalAnuncios();
+        return Utils.calcularPercentagem(getTotalAnunciosConcretizados(), totalAnuncios);
+
+    }
+
+    /**
+     * Função para obter o valor de receita de vendas
+     * @return Valor das receitas das vendas
+     */
+    public double getReceitaVendas() {
+        double receita = 0;
+        for (AnuncioVenda anuncio : getAnunciosVendaConcretizados()) {
+            receita += anuncio.getPreco();
+        }
+        return receita;
+    }
+
+    /**
+     * Função para obter receita dos alugueres até à presente data <br>
+     * A formula do cálculo é: <b>Diferença de meses entre a data de concretização e a atual  * Preço do aluguer</b>
+     * @return Valor das receitas de aluguer
+     */
+    public double getReceitaAlugueres() {
+        double receita = 0;
+        for (AnuncioAluguer anuncio : getAnunciosAluguerConcretizados()) {
+            Data d1 = anuncio.getDataConcretizacao();
+            Data d2 = Data.getDataAtual();
+            int mesesPassados = d2.getMes() - d1.getMes() + 12 * (d2.getAno() - d1.getAno()) - (d2.getDia() < d1.getDia() ? 1 : 0);
+            if (mesesPassados > 0) {
+                receita += mesesPassados * anuncio.getPreco();
+            }
+        }
+        return receita;
+    }
+
+    /**
+     * Função para obter a receita prevista de aluguer
+     * A fórmula do cálculo é: <b>Duração * Preço do aluguer</b>
+     * @return Receita prevista dos alugueres
+     */
+    public double getReceitaPrevistaAlugueres() {
+        double receita = 0;
+        for (AnuncioAluguer anuncio : getAnunciosAluguerConcretizados()) {
+            receita += anuncio.getPreco() * anuncio.getDuracao();
+        }
+        return receita;
+    }
+
+    /**
+     * Função para obter o total das receitas obtidas pelas vendas e alugueres
+     * @return Total de receitas das vendas e alugueres
+     */
+    public double getTotalReceitas() {
+        return getReceitaVendas() + getReceitaAlugueres();
+    }
+
+    /**
+     * Função para obter o total das receitas <b>previstas</b> pelas vendas e alugueres
+     * @return Total de receitas previstas das vendas e alugueres
+     */
+    public double getTotalReceitasPrevistas() {
+        return getReceitaVendas() + getReceitaPrevistaAlugueres();
     }
 }

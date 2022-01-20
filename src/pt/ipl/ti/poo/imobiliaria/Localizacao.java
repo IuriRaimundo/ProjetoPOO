@@ -1,6 +1,13 @@
 package pt.ipl.ti.poo.imobiliaria;
 
-public class Localizacao {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Localizacao implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String pais;
     private String cidade;
     private String morada;
@@ -58,6 +65,6 @@ public class Localizacao {
      */
     @Override
     public String toString() {
-        return "Localização: " + morada + ", " + cidade + ", " + codigoPostal + ", " + pais + "\n";
+        return "\tLocalização: " + morada + ", " + cidade + ", " + codigoPostal + " " + pais + "\n";
     }
 }

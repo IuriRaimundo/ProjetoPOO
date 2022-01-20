@@ -1,6 +1,13 @@
 package pt.ipl.ti.poo.imobiliaria;
 
-public abstract class Imovel extends Descritor {
+import java.io.Serial;
+import java.io.Serializable;
+
+public  class Imovel extends Descritor implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private final double area;
 
     /**

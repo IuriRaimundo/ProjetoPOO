@@ -1,6 +1,9 @@
 package pt.ipl.ti.poo.imobiliaria;
 
-public abstract class Descritor {
+import java.io.Serial;
+import java.io.Serializable;
+
+public abstract class Descritor implements Serializable {
     private final String descricao;
     private final Localizacao localizacao;
 
@@ -39,6 +42,6 @@ public abstract class Descritor {
      */
     @Override
     public String toString() {
-        return "Nome: " + descricao + "\n" + localizacao.toString();
+        return "\tDescrição: " + descricao + "\n" + localizacao.toString();
     }
 }

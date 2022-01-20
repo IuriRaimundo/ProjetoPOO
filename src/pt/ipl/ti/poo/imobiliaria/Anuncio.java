@@ -1,16 +1,28 @@
 package pt.ipl.ti.poo.imobiliaria;
 
 import pt.ipl.ti.poo.Data;
+import pt.ipl.ti.poo.imobiliaria.excecoes.AnuncioJaConcretizadoException;
 
-public abstract class  Anuncio {
+import java.io.Serial;
+import java.io.Serializable;
+
+public abstract class Anuncio implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private double preco;
-    private final Data data;
-    private final Imovel imovel;
+    private final Data dataPublicacao;
+    private Data dataConcretizacao;
 
-    public Anuncio(double preco, Data data, Imovel imovel){
+    /**
+     * Construtor da Classe Anuncio
+     * @param preco preço do anúncio
+     */
+    public Anuncio(double preco){
         this.preco = preco;
-        this.data = data;
-        this.imovel = imovel;
+        this.dataPublicacao = Data.getDataAtual();
+        this.dataConcretizacao = null;
     }
 
     /**
@@ -21,8 +33,12 @@ public abstract class  Anuncio {
         return preco;
     }
 
-    public Data getData(){
-        return data;
+    /**
+     * Função para obter a data de publicação
+     * @return data de publicação
+     */
+    public Data getDataPublicacao(){
+        return dataPublicacao;
     }
 
     /**
