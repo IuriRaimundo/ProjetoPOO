@@ -290,7 +290,7 @@ public abstract class ImobiliariaUtils {
      * @return Palavra-passe introduzida
      */
     public static String criarPalavraPasse() {
-        String palavraPasse = "", confirmacao = "";
+        String palavraPasse, confirmacao = "";
         int tamanho;
         do {
             System.out.print("Palavra-passe: ");

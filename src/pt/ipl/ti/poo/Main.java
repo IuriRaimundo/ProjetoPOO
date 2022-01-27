@@ -13,9 +13,6 @@ import java.util.LinkedList;
 
 
 public class Main {
-    /**
-     * Opções do menu principal
-     */
 
     /**
      * Imobiliaria a ser utilizada no momento.
@@ -29,7 +26,7 @@ public class Main {
 
     public Main() {
 
-
+        /*
         Imobiliaria i = new Imobiliaria(
                 "TioMax",
                 new Localizacao("Portugal", "Leiria", "ESTG", "2400"
@@ -99,6 +96,8 @@ public class Main {
         Moradia m4 = new Moradia("m4", new Localizacao("Portugal", "Amadora", "rua do m4", "2700"), 150, 4, 2);
         AnuncioVenda av7 = new AnuncioVenda(90000, m4);
         imobiliariaAtiva.adicionarAnuncio(av7);
+
+        */
 
         /*
             O programa irá executar num ciclo, até que o utilizador escolha a opção de sair.
@@ -202,7 +201,7 @@ public class Main {
 
         Menu menu = new Menu(opcoesMenu);
 
-        int escolha = 0;
+        int escolha;
 
         do {
             System.out.println("-----------------------------");
@@ -213,27 +212,20 @@ public class Main {
             escolha = menu.obterEscolha();
 
             switch (escolha) {
-                case 1 -> {     // Listar anúncios abertos
-                    ImobiliariaUtils.listarAnuncios(imobiliariaAtiva.getAnunciosAtivos());
-                }
-                case 2 -> {     // Listar anúncios concretizados
-                    ImobiliariaUtils.listarAnuncios(imobiliariaAtiva.getAnunciosConcretizados());
-                }
-                case 3 -> {     // Criar novo anúncio
-                    ImobiliariaUtils.criarAnuncio(imobiliariaAtiva);
-                }
-                case 4 -> {     // Registar anúncio como concretizado
-                    ImobiliariaUtils.concretizarAnuncio(imobiliariaAtiva);
-                }
-                case 5 -> {     // Estatísticas
-                    ImobiliariaUtils.imprimirRelatorioImobiliaria(imobiliariaAtiva);
-                }
-                case 6 -> {     // Gravar dados
-                    ImobiliariaUtils.gravarDadosImobiliarias(imobiliarias);
-                }
-                case 7 -> { // Terminar sessão
-                    imobiliariaAtiva = null;
-                }
+                case 1 -> // Listar anúncios abertos
+                        ImobiliariaUtils.listarAnuncios(imobiliariaAtiva.getAnunciosAtivos());
+                case 2 -> // Listar anúncios concretizados
+                        ImobiliariaUtils.listarAnuncios(imobiliariaAtiva.getAnunciosConcretizados());
+                case 3 -> // Criar novo anúncio
+                        ImobiliariaUtils.criarAnuncio(imobiliariaAtiva);
+                case 4 -> // Registar anúncio como concretizado
+                        ImobiliariaUtils.concretizarAnuncio(imobiliariaAtiva);
+                case 5 -> // Estatísticas
+                        ImobiliariaUtils.imprimirRelatorioImobiliaria(imobiliariaAtiva);
+                case 6 -> // Gravar dados
+                        ImobiliariaUtils.gravarDadosImobiliarias(imobiliarias);
+                case 7 -> // Terminar sessão
+                        imobiliariaAtiva = null;
             }
         } while (escolha != 7);
     }
