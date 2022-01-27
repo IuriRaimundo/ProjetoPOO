@@ -101,6 +101,13 @@ public abstract class ImobiliariaUtils {
         return new AnuncioAluguer(preco, imovel, duracao);
     }
 
+    /**
+     * Esta função cria um anúncio de venda
+     *
+     * @param preco  Preço do imóvel
+     * @param imovel Imovél a ser vendido
+     * @return Anúncio de venda criado.
+     */
     private static AnuncioVenda criarAnuncioVenda(double preco, ImoveisQuePodemSerVendidos imovel) {
         return new AnuncioVenda(preco, imovel);
     }
@@ -123,30 +130,72 @@ public abstract class ImobiliariaUtils {
         return new Imovel(nome, localizacao, area);
     }
 
+    /**
+     * Função para criar Habitação <br>
+     * Recebe um imóvel e cria uma habitação com os dados do imóvel e o número de quartos solicitado ao utilizador.
+     * Esta função pede o número de quartos ao utilizador
+     *
+     * @param imovel Dados do imóvel.
+     * @return Nova Habitação.
+     */
     private static Habitacao criarHabitacao(Imovel imovel) {
         System.out.print("Quartos: ");
         int quartos = Utils.lerInteiro(1, MAX_QUARTOS);
         return new Habitacao(imovel, quartos);
     }
 
-    private static Moradia criarMoradia(Habitacao imovel) {
+    /**
+     * Função para criar a Moradia <br>
+     * Recebe uma habitação e cria uma moradia com os dados da habitação e o número de pisos solicitado ao utilizador.
+     *
+     * @param habitacao Dados da habitação.
+     * @return Nova Moradia.
+     */
+    private static Moradia criarMoradia(Habitacao habitacao) {
         System.out.print("Pisos: ");
         int pisos = Utils.lerInteiro(1, MAX_PISOS);
         return new Moradia(habitacao, pisos);
     }
 
-    private static Apartamento criarApartamento(Habitacao imovel) {
-        return new Apartamento(imovel);
+    /**
+     * Função para criar novo Apartamento, apenas converte uma Habitacao para Apartamento, uma vez que contêm os mesmos atributos e métodos <br>
+     * É efetuada esta conversão para fazer distinção entre os apartamentos e moradias.
+     *
+     * @param habitacao Habitacao a ser convertida.
+     * @return Novo Apartamento.
+     */
+    private static Apartamento criarApartamento(Habitacao habitacao) {
+        return new Apartamento(habitacao);
     }
 
+    /**
+     * Função para criar novo Terreno, apenas converte um Imovel para Terreno, uma vez que contêm os mesmos atributos e métodos. <br>
+     * É efetuada esta conversão para fazer distinção entre os terrenos e quartos, que são admitidos em tipos de anúncios diferentes.
+     *
+     * @param imovel Imovel a converter
+     * @return novo Terreno
+     */
     private static Terreno criarTerreno(Imovel imovel) {
         return new Terreno(imovel);
     }
 
+    /**
+     * Função para criar novo Quarto, apenas converte um Imovel em Quarto, uma vez que contêm os mesmos atributos e métodos. <br>
+     * É efetuada esta conversão para fazer distinção entre os terrenos e quartos, que são admitidos em tipos de anúncios diferentes.
+     *
+     * @param imovel Imovel a ser convertido
+     * @return Novo Quarto
+     */
     private static Quarto criarQuarto(Imovel imovel) {
         return new Quarto(imovel);
     }
 
+    /**
+     * Função para criar nova Localização <br>
+     * Esta função pede os diferentes parâmetros ao utilizador
+     *
+     * @return Nova Localização
+     */
     public static Localizacao criarLocalizacao() {
         System.out.print("Morada: ");
         String morada = Utils.lerString();
