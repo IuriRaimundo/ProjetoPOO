@@ -1,6 +1,13 @@
 package pt.ipl.ti.poo;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.InputMismatchException;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -154,4 +161,60 @@ public abstract class Utils {
         return (float) Math.round((numerador / denominador * 1000)) / 10;
     }
 
+    /**
+     * Esta função cria uma hash a partir de uma string com o algorítmo SHA-256. <br>
+     * É usada para fazer a hash das palavras-passe das imobiliárias.
+     * @param string String a ser transformada.
+     * @return hash
+     */
+    public static byte[] hashString(String string) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            return digest.digest(string.getBytes(StandardCharsets.UTF_8));
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Erro ao criar hash.");
+            return null;
+        }
+    }
+
+    /**
+     * Esta função compara duas hash, é utilizada no programa para iniciar sessão em imobiliárias.
+     * @param p1 hash a comparar
+     * @param p2 hash a comparar
+     * @return Verdadeiro se as hash forem iguais, Falso se forem diferentes.
+     */
+    public static boolean compararHash(byte[] p1, byte[] p2) {
+        return Objects.deepEquals(p1, p2);
+    }
+
+    /**
+     * Esta função criar o checksum / hash de um ficheiro.
+     * Código obtido em https://howtodoinjava.com/java/java-security/sha-md5-file-checksum-hash/
+     * @param digest Digest com o algoritmo pretendido.
+     * @param file Ficheiro para criar o checksum
+     * @return Checksum / hash de um ficheiro
+     * @throws IOException
+     */
+    public static byte[] getFileChecksum(MessageDigest digest, File file) throws IOException
+    {
+        // Obter stream para ler o conteúdo do ficheiro
+        FileInputStream fis = new FileInputStream(file);
+
+        // Buffer de bytes para ler o ficheiro em bocados
+        byte[] byteArray = new byte[1024];
+        int bytesCount = 0;
+
+        // Atualizar a mensagem do digest com os dados do ficheiro.
+        while ((bytesCount = fis.read(byteArray)) != -1) {
+            digest.update(byteArray, 0, bytesCount);
+        };
+
+        // Fechar a stream
+        fis.close();
+
+        // Obter hash
+        byte[] bytes = digest.digest();
+
+        return bytes;
+    }
 }

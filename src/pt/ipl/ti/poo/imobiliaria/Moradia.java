@@ -42,6 +42,6 @@ public class Moradia extends Habitacao implements Serializable {
 
     @Override
     public String toString() {
-        return "\tTipo: Moradia " + "\n" + super.toString() + "Pisos: " + pisos + "\n";
+        return "\n\tTipo: Moradia " + "\n" + super.toString() + "\n\tPisos: " + pisos;
     }
 }

@@ -2,6 +2,7 @@ package pt.ipl.ti.poo.imobiliaria;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 
 public  class Imovel extends Descritor implements Serializable {
 
@@ -36,5 +37,19 @@ public  class Imovel extends Descritor implements Serializable {
     @Override
     public String toString() {
         return super.toString() + "\tÁrea = " + area + "m²";
+    }
+
+    /**
+     * Dois imóveis são considerados iguais quando têm a mesma localização, <br>
+     * ignorando os restantes atributos.
+     * @param o Objeto a comparar
+     * @return Verdadeiro se forem iguais, falso se forem diferentes.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || !(o instanceof Imovel)) return false;
+        Imovel imovel = (Imovel) o;
+        return Objects.equals(getLocalizacao(), imovel.getLocalizacao());
     }
 }

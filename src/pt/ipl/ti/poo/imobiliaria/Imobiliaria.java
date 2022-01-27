@@ -14,7 +14,8 @@ import java.util.LinkedList;
 public class Imobiliaria extends Descritor implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
+    private final byte[] hash;
 
     private final LinkedList<Anuncio> anunciosAtivos;
     private final LinkedList<Anuncio> anunciosConcretizados;
@@ -24,11 +25,13 @@ public class Imobiliaria extends Descritor implements Serializable {
     private int contAnunciosAluguerAtivos;
     private int contAnunciosAluguerConcretizados;
 
+
     /**
      * @param  descricao  Descrição / Nome da Imobiliária
      * @param  localizacao Localização da imobiliária
+     * @param palavraPasse Palavra passe da imobiliária
      */
-    public Imobiliaria(String descricao, Localizacao localizacao){
+    public Imobiliaria(String descricao, Localizacao localizacao, String palavraPasse) {
         super(descricao, localizacao);
         anunciosAtivos = new LinkedList<>();
         anunciosConcretizados = new LinkedList<>();
@@ -36,6 +39,11 @@ public class Imobiliaria extends Descritor implements Serializable {
         contAnunciosVendaConcretizados = 0;
         contAnunciosAluguerAtivos = 0;
         contAnunciosAluguerConcretizados = 0;
+        hash = Utils.hashString(palavraPasse);
+    }
+
+    public byte[] getHash() {
+        return hash;
     }
 
     /**
@@ -217,23 +225,20 @@ public class Imobiliaria extends Descritor implements Serializable {
     }
 
     /**
-     * Função para obter a percentagem de anúncios ativos
-     * @return A percentagem obtida pelo total de anúncios ativos a dividir pelo total de anúncios a multiplicar por 100
+     * Função para obter a percentagem de anúncios ativos em relação ao total
+     * @return Percentagem de anúncios ativos
      * Percentagem de anúncios ativos
      */
     public float getPercAnunciosAtivos() {
-        int totalAnuncios = getTotalAnuncios() + getTotalAnunciosConcretizados();
-        return Utils.calcularPercentagem(getTotalAnunciosAtivos(), totalAnuncios);
+        return Utils.calcularPercentagem(getTotalAnunciosAtivos(), getTotalAnuncios());
     }
 
     /**
-     * Função para obter a percentagem de anúncios concretizados
-     * A percentagem obtida pelo total de anúncios concretizados a dividir pelo total de anúncios a multiplicar por 100
+     * Função para obter a percentagem de anúncios concretizados em relação ao total
      * @return Percentagem de anúncios concretizados
      */
     public float getPercAnunciosConcretizados() {
-        int totalAnuncios = getTotalAnuncios();
-        return Utils.calcularPercentagem(getTotalAnunciosConcretizados(), totalAnuncios);
+        return Utils.calcularPercentagem(getTotalAnunciosConcretizados(), getTotalAnuncios());
 
     }
 
@@ -294,5 +299,18 @@ public class Imobiliaria extends Descritor implements Serializable {
      */
     public double getTotalReceitasPrevistas() {
         return getReceitaVendas() + getReceitaPrevistaAlugueres();
+    }
+
+    /**
+     * Duas imobiliárias são consideradas iguais quando têm o mesmo nome.
+     * @param o Objeto a ser comparado
+     * @return Verdadeiro se os objetos forem iguais, falso se forem diferentes.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || !(o instanceof Imobiliaria)) return false;
+        Imobiliaria imobiliaria = (Imobiliaria) o;
+        return getDescricao().equalsIgnoreCase(imobiliaria.getDescricao());
     }
 }

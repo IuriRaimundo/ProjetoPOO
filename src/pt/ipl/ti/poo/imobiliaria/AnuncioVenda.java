@@ -1,9 +1,8 @@
 package pt.ipl.ti.poo.imobiliaria;
 
-import pt.ipl.ti.poo.Data;
-
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class AnuncioVenda extends Anuncio implements Serializable {
     private ImoveisQuePodemSerVendidos imovel;
@@ -35,6 +34,21 @@ public class AnuncioVenda extends Anuncio implements Serializable {
      */
     @Override
     public String toString() {
-        return "\nAnúncio Venda" + super.toString() + imovel.toString();
+        return "Anúncio Venda - " + super.toString() + imovel.toString();
+    }
+
+    /**
+     * Dois anúncios são considerados iguais quando têm o mesmo imóvel. <br>
+     * Caso seja necessário efetuar um novo anúncio com outro preço, <br>
+     * primeiro deve ser concretizado o anúncio ativo.
+     * @param o Anúncio de venda a ser comparado
+     * @return
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || !(o instanceof AnuncioVenda)) return false;
+        AnuncioVenda anuncio = (AnuncioVenda) o;
+        return Objects.equals(imovel, anuncio.getImovel());
     }
 }

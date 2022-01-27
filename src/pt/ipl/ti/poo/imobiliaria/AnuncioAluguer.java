@@ -1,9 +1,8 @@
 package pt.ipl.ti.poo.imobiliaria;
 
-import pt.ipl.ti.poo.Data;
-
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class AnuncioAluguer extends Anuncio implements Serializable {
     private final int duracao;
@@ -42,6 +41,20 @@ public class AnuncioAluguer extends Anuncio implements Serializable {
 
     @Override
     public String toString() {
-        return "\nAnúncio Aluguer" + super.toString() + "\tDuração: " + duracao + " meses\n" + "\n" + imovel.toString() + "\n";
+        return "Anúncio Aluguer - " + super.toString() + "\n\tDuração: " + duracao + " meses" + imovel.toString();
+    }
+
+    /**
+     * Dois anúncios são considerados iguais quando têm o mesmo imóvel.
+     * Caso seja necessário efetuar um novo anúncio com outro preço / duração deve ser concretizado o mesmo
+     * @param o Anúncio de aluguer a ser comparado
+     * @return Verdadeiro se forem iguais, falso se forem diferentes.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || !(o instanceof AnuncioAluguer)) return false;
+        AnuncioAluguer anuncio = (AnuncioAluguer) o;
+        return Objects.equals(imovel, anuncio.getImovel());
     }
 }

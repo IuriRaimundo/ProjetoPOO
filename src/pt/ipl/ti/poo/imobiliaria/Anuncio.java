@@ -73,6 +73,6 @@ public abstract class Anuncio implements Serializable {
      */
     @Override
     public String toString() {
-        return "Publicado em " + dataPublicacao.toString() + "\n\tPreço: " + preco + "\n";
+        return (dataConcretizacao == null ? "Publicado em " + dataPublicacao.toString() : "Concretizado em " + dataConcretizacao.toString()) + "\n\tPreço: " + preco + " €";
     }
 }

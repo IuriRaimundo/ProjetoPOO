@@ -2,7 +2,12 @@ package pt.ipl.ti.poo.imobiliaria;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 
+/**
+ * Esta classe armazena os dados de uma localização, a morada, cidade, país e código postal.<br>
+ * Ela é usada para localizar imobiliárias e imóveis.
+ */
 public class Localizacao implements Serializable {
 
     @Serial
@@ -15,10 +20,10 @@ public class Localizacao implements Serializable {
 
     /**
      * Construtor da Localização
-     * @param pais onde se situa o imóvel
-     * @param cidade onde se situa o imóvel
-     * @param morada onde se situa o imóvel
-     * @param codigoPostal do imóvel
+     * @param pais Nome do país
+     * @param cidade Nome da cidade
+     * @param morada Lote / Número / Andar e nome de rua
+     * @param codigoPostal Código postal
      */
     public Localizacao(String pais, String cidade, String morada, String codigoPostal) {
         this.pais = pais;
@@ -60,11 +65,27 @@ public class Localizacao implements Serializable {
     }
 
     /**
-     * Função para listar os parâmetros no Main
-     * @return da morada, cidade, código postal e país
+     * Devolve a uma string com a localização formatada
+     * @return Localização formatada
      */
     @Override
     public String toString() {
         return "\tLocalização: " + morada + ", " + cidade + ", " + codigoPostal + " " + pais + "\n";
+    }
+
+    /**
+     * Duas localizações são iguais se o país, morada, cidade e código postal são iguais.
+     * @param o Localização a comparar
+     * @return
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || !(o instanceof Localizacao)) return false;
+        Localizacao localizacao = (Localizacao) o;
+        return Objects.equals(pais, localizacao.pais)
+                && Objects.equals(cidade, localizacao.cidade)
+                && Objects.equals(morada, localizacao.morada)
+                && Objects.equals(codigoPostal, localizacao.codigoPostal);
     }
 }

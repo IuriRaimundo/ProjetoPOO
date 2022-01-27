@@ -33,7 +33,7 @@ public class Quarto extends Imovel
      */
     @Override
     public String toString() {
-        return "\t Quarto " + "\n" + super.toString();
+        return "\n\tTipo: Quarto " + "\n" + super.toString();
     }
 }
 

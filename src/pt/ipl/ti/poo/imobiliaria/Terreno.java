@@ -29,6 +29,6 @@ public class Terreno extends Imovel
 
     @Override
     public String toString() {
-        return "\tTipo: Terreno " + super.toString() + "\n";
+        return "\n\tTipo: Terreno " + super.toString();
     }
 }

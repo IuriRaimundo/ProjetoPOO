@@ -35,6 +35,6 @@ public class Apartamento extends Habitacao
     */
     @Override
     public String toString() {
-        return "\tTipo: Apartamento\n" + super.toString() + "\n";
+        return "\n\tTipo: Apartamento\n" + super.toString() + "\n";
     }
 }

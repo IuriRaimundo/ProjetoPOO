@@ -45,6 +45,6 @@ public class Habitacao extends Imovel
      */
     @Override
     public String toString() {
-        return super.toString() + "\tQuartos: " + quartos;
+        return super.toString() + "\n\tQuartos: " + quartos;
     }
 }
