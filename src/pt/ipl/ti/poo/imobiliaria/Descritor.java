@@ -3,17 +3,27 @@ package pt.ipl.ti.poo.imobiliaria;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * O descritor serve para identificar, contém uma descrição / nome e uma localização.
+ */
 public abstract class Descritor implements Serializable {
-    private final String descricao;
-    private final Localizacao localizacao;
-
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
+     * Descrição / Nome
+     */
+    private final String descricao;
+
+    /**
+     * Localização
+     */
+    private final Localizacao localizacao;
+
+    /**
      * Construtor do Descritor
-     * @param descricao do imóvel
-     * @param localizacao do imóvel
+     * @param descricao Descrição / Nome
+     * @param localizacao Localização
      */
     public Descritor(String descricao, Localizacao localizacao){
         this.descricao = descricao;
@@ -36,10 +46,6 @@ public abstract class Descritor implements Serializable {
         return localizacao;
     }
 
-    /**
-     * Função para listar os parâmetros no Main
-     * @return da descrição e da localização
-     */
     @Override
     public String toString() {
         return "\tDescrição: " + descricao + "\n" + localizacao.toString();

@@ -1,5 +1,6 @@
 package pt.ipl.ti.poo.imobiliaria;
 
-public interface ImoveisQuePodemSerVendidos {
-
-}
+/**
+ * Interface para classificar imóveis que podem ser incluídos nos anúncios de venda.
+ */
+public interface ImoveisQuePodemSerVendidos { }

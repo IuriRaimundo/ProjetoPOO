@@ -23,7 +23,7 @@ public class Menu {
 
     /**
      * Este construtor recebe uma LinkedList de strings, e a mesma é convertida para um vetor de strings.
-     * @param opcoes
+     * @param opcoes Lista de opções para o menu
      */
     public Menu(LinkedList<String> opcoes) {
         this.opcoes = opcoes.toArray(new String[opcoes.size()]);
@@ -47,6 +47,6 @@ public class Menu {
      */
     public int obterEscolha() {
         System.out.print("Escolha: ");
-        return Utils.lerInteiro(1, numeroDeOpcoes, "Opção inválida, escolha uma opção entre " + 1 + " e " + numeroDeOpcoes);
+        return Utils.lerInteiro(1, numeroDeOpcoes, "Opção inválida, escolha uma opção entre " + 1 + " e " + numeroDeOpcoes + ": ");
     }
 }

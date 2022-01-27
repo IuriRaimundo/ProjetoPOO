@@ -4,12 +4,24 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Anúncio de aluguer de um imóvel
+ */
 public class AnuncioAluguer extends Anuncio implements Serializable {
-    private final int duracao;
-    private ImoveisQuePodemSerAlugados imovel;
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Duração do aluguer, inicializado no construtor. <br>
+     * Caso seja passado para o construtor um valor negativo a duração é inicializada a 0.
+     */
+    private final int duracao;
+
+    /**
+     * Imóvel listado no anúncio.
+     */
+    private final ImoveisQuePodemSerAlugados imovel;
 
     /**
      * Construtor da classe Anuncio de Aluguer
@@ -19,7 +31,8 @@ public class AnuncioAluguer extends Anuncio implements Serializable {
      */
     public AnuncioAluguer(double preco, ImoveisQuePodemSerAlugados imovel, int duracao){
         super(preco);
-        this.duracao = duracao;
+        // Caso a duracao seja menor que 0, é inicializada para 0 para não quebrar os cálculos estatísticos dos restantes anúncios.
+        this.duracao = Math.max(duracao, 0);
         this.imovel = imovel;
     }
 
@@ -53,7 +66,7 @@ public class AnuncioAluguer extends Anuncio implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof AnuncioAluguer)) return false;
+        if (!(o instanceof AnuncioAluguer)) return false;
         AnuncioAluguer anuncio = (AnuncioAluguer) o;
         return Objects.equals(imovel, anuncio.getImovel());
     }

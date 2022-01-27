@@ -3,11 +3,19 @@ package pt.ipl.ti.poo.imobiliaria;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * Uma habitação é um imóvel com número de quartos.
+ * Uma habitação pode ser vendida e alugada.
+ */
 public class Habitacao extends Imovel
         implements ImoveisQuePodemSerAlugados, ImoveisQuePodemSerVendidos, Serializable
 {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Número de quartos do imóvel
+     */
     private final int quartos;
 
     /**
@@ -39,10 +47,6 @@ public class Habitacao extends Imovel
         return quartos;
     }
 
-    /**
-     * Função para listar os parâmetros no Main
-     * @return do super e dos quartos
-     */
     @Override
     public String toString() {
         return super.toString() + "\n\tQuartos: " + quartos;

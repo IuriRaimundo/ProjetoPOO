@@ -6,28 +6,45 @@ import pt.ipl.ti.poo.imobiliaria.excecoes.AnuncioJaConcretizadoException;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * A classe Anuncio é a base de qualquer tipo de anúncio da imobiliária.
+ * Ela contém o preço, data de publicação do anúncio de data de concretização.
+ * É abstrada para permitir apenas a criação de anúncios de venda ou aluguer.
+ */
 public abstract class Anuncio implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Preço do imóvel, no caso de alugueres corresponde ao preço mensal.
+     */
     private double preco;
+
+    /**
+     * Data de publicação do anúncio, é inicializada automáticamente com a data atual no construtor.
+     */
     private final Data dataPublicacao;
+
+    /**
+     * Data de concretização do anúncio, é inicializado a null pelo construtor e a sua alteração implica
+     * a concretização do anúncio, deixando este de ser ativo.
+     */
     private Data dataConcretizacao;
 
     /**
-     * Construtor da Classe Anuncio
-     * @param preco preço do anúncio
+     * Caso seja passado um preço menor do que zero, o preço é inicializado a 0.
+     * @param preco Preço do anúncio
      */
     public Anuncio(double preco){
-        this.preco = preco;
+        this.preco = Math.max(preco, 0);
         this.dataPublicacao = Data.getDataAtual();
         this.dataConcretizacao = null;
     }
 
     /**
      * Função para obter o preço do anúncio
-     * @return preço
+     * @return Preço do anúncio
      */
     public double getPreco(){
         return preco;
@@ -35,7 +52,7 @@ public abstract class Anuncio implements Serializable {
 
     /**
      * Função para obter a data de publicação
-     * @return data de publicação
+     * @return Data de publicação
      */
     public Data getDataPublicacao(){
         return dataPublicacao;
@@ -51,7 +68,7 @@ public abstract class Anuncio implements Serializable {
 
     /**
      * Função para obter a data de concretização
-     * @return data de concretização
+     * @return Data de concretização do anúncio
      */
     public Data getDataConcretizacao() {
         return dataConcretizacao;
@@ -59,20 +76,15 @@ public abstract class Anuncio implements Serializable {
 
     /**
      * Função para registar concretizado
-     * Se o anuncio já estiver concretizado, é lançada uma exceção
-     * @throws AnuncioJaConcretizadoException
+     * @throws AnuncioJaConcretizadoException Caso o anúncio já se encontre concretizado é lançada esta exceção
      */
     public void registarConcretizado() throws AnuncioJaConcretizadoException {
         if (dataConcretizacao != null) throw new AnuncioJaConcretizadoException();
         dataConcretizacao = Data.getDataAtual();
     }
 
-    /**
-     * Função para listar os parâmetros no Main
-     * @return data de publicação e preço
-     */
     @Override
     public String toString() {
-        return (dataConcretizacao == null ? "Publicado em " + dataPublicacao.toString() : "Concretizado em " + dataConcretizacao.toString()) + "\n\tPreço: " + preco + " €";
+        return (dataConcretizacao == null ? "Publicado em " + getDataPublicacao().toString() : "Concretizado em " + getDataConcretizacao().toString()) + "\n\tPreço: " + preco + " €";
     }
 }

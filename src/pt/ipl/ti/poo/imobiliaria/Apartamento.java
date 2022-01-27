@@ -3,10 +3,11 @@ package pt.ipl.ti.poo.imobiliaria;
 import java.io.Serial;
 import java.io.Serializable;
 
-public class Apartamento extends Habitacao
-        implements ImoveisQuePodemSerVendidos, ImoveisQuePodemSerAlugados, Serializable
+/**
+ * Serve para efetuar classificar uma habitação como Apartamento.
+ */
+public class Apartamento extends Habitacao implements Serializable {
 
-{
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -29,10 +30,6 @@ public class Apartamento extends Habitacao
         super(descricao, localizacao, area, quartos);
     }
 
-    /**
-    * Função para listar os parâmetros no Main
-    * @return do super
-    */
     @Override
     public String toString() {
         return "\n\tTipo: Apartamento\n" + super.toString() + "\n";

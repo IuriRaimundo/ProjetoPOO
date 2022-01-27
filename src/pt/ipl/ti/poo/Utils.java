@@ -15,6 +15,9 @@ import java.util.Scanner;
  */
 public abstract class Utils {
 
+    /**
+     * Instância do scanner a ser utilizada no programa inteiro.
+     */
     public static final Scanner SCANNER = new Scanner(System.in);
 
     /**
@@ -24,7 +27,7 @@ public abstract class Utils {
         SCANNER.close();
     }
 
-    /*
+    /**
      * lerInteiro sem limites
      * @return Inteiro introduzido pelo utilizador
     */
@@ -93,7 +96,7 @@ public abstract class Utils {
      * @return Double introduzido pelo utilizador
      */
     public static double lerDouble(double min, double max) {
-        return lerDouble(Double.MIN_VALUE, Double.MAX_VALUE, "Número inválido, repita a inserção");
+        return lerDouble(min, max, "Número inválido, repita a inserção");
     }
 
     /**
@@ -193,7 +196,7 @@ public abstract class Utils {
      * @param digest Digest com o algoritmo pretendido.
      * @param file Ficheiro para criar o checksum
      * @return Checksum / hash de um ficheiro
-     * @throws IOException
+     * @throws IOException IOException
      */
     public static byte[] getFileChecksum(MessageDigest digest, File file) throws IOException
     {
@@ -202,19 +205,36 @@ public abstract class Utils {
 
         // Buffer de bytes para ler o ficheiro em bocados
         byte[] byteArray = new byte[1024];
-        int bytesCount = 0;
+        int bytesCount;
 
         // Atualizar a mensagem do digest com os dados do ficheiro.
         while ((bytesCount = fis.read(byteArray)) != -1) {
             digest.update(byteArray, 0, bytesCount);
-        };
+        }
 
         // Fechar a stream
         fis.close();
 
-        // Obter hash
-        byte[] bytes = digest.digest();
+        // Devolver hash
+        return digest.digest();
+    }
 
-        return bytes;
+    /**
+     * Função para solicitar escolhas binárias ao utilizador.
+     * @param mensagem Mensagem a ser mostrada ao utilizador.
+     * @return Verdadeiro se o utilizador escolher sim, Falso se escolheu não.
+     */
+    public static boolean escolhaBinaria(String mensagem) {
+        System.out.print(mensagem + " (S/N): ");
+
+        String escolha;
+        do {
+            escolha = Utils.lerString().toUpperCase();
+            if (!escolha.equals("S") && !escolha.equals("N")) {
+                System.out.print("Insira apenas um 'S' ou 'N' sem plicas: ");
+            }
+        } while (!escolha.equals("S") && !escolha.equals("N"));
+
+        return escolha.equals("S");
     }
 }

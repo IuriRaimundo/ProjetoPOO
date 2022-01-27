@@ -3,6 +3,10 @@ package pt.ipl.ti.poo.imobiliaria;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * Serve para classificar um imóvel como um terreno.
+ * É um imóvel que pode ser vendido.
+ */
 public class Terreno extends Imovel
         implements ImoveisQuePodemSerVendidos, Serializable {
 

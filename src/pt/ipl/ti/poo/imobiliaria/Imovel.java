@@ -4,11 +4,17 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Esta classe representa um imóvel, contém informações como uma descrição, localização do imóvel, área do imóvel.
+ */
 public  class Imovel extends Descritor implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Área do imóvel, em metros quadrados.
+     */
     private final double area;
 
     /**
@@ -30,10 +36,6 @@ public  class Imovel extends Descritor implements Serializable {
         return area;
     }
 
-    /**
-     * Função para listar os parâmetros no Main
-     * @return do super e da área
-     */
     @Override
     public String toString() {
         return super.toString() + "\tÁrea = " + area + "m²";
@@ -48,7 +50,7 @@ public  class Imovel extends Descritor implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof Imovel)) return false;
+        if (!(o instanceof Imovel)) return false;
         Imovel imovel = (Imovel) o;
         return Objects.equals(getLocalizacao(), imovel.getLocalizacao());
     }

@@ -13,9 +13,24 @@ public class Localizacao implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * País
+     */
     private String pais;
+
+    /**
+     * Cidade
+     */
     private String cidade;
+
+    /**
+     * Morada
+     */
     private String morada;
+
+    /**
+     * Código postal
+     */
     private String codigoPostal;
 
     /**
@@ -66,7 +81,7 @@ public class Localizacao implements Serializable {
 
     /**
      * Devolve a uma string com a localização formatada
-     * @return Localização formatada
+     * @return String da localização formatada
      */
     @Override
     public String toString() {
@@ -76,12 +91,12 @@ public class Localizacao implements Serializable {
     /**
      * Duas localizações são iguais se o país, morada, cidade e código postal são iguais.
      * @param o Localização a comparar
-     * @return
+     * @return Verdadeiro se forem iguais, falso se forem diferentes.
      */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof Localizacao)) return false;
+        if (!(o instanceof Localizacao)) return false;
         Localizacao localizacao = (Localizacao) o;
         return Objects.equals(pais, localizacao.pais)
                 && Objects.equals(cidade, localizacao.cidade)

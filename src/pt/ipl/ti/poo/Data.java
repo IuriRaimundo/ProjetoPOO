@@ -9,8 +9,20 @@ public class Data implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Dia da data
+     */
     private final int dia;
+
+    /**
+     * Mês da data
+     */
     private final int mes;
+
+    /**
+     * Ano da data
+     */
     private final int ano;
 
     public Data(int dia, int mes, int ano) {
@@ -31,6 +43,10 @@ public class Data implements Serializable {
         return ano;
     }
 
+    /**
+     * Esta função obtem a data atual.
+     * @return Data atual.
+     */
     public static Data getDataAtual() {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Lisbon"));
         return new Data(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH)+1, cal.get(Calendar.YEAR));

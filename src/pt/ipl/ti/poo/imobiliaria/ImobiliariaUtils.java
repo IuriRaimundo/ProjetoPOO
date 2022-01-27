@@ -4,11 +4,13 @@ import pt.ipl.ti.poo.Utils;
 import pt.ipl.ti.poo.menu.Menu;
 
 import java.io.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 
 /**
  * Esta classe contém funções de utilidade para efetuar operações relacionadas com a Imobiliária. <br>
- * Contém métodos para criar os objetos pertencentes ao package imobiliaria e métodos para alterar uma mobiliária com as devidas proteções.
+ * Contém métodos para criar os objetos do package imobiliaria e métodos para alterar uma mobiliária com as devidas proteções.
  */
 public abstract class ImobiliariaUtils {
 
@@ -17,13 +19,17 @@ public abstract class ImobiliariaUtils {
      */
     public static final String NOME_FICH_IMOBILIARIAS = "imobiliarias.dat";
     /**
-     * Mínimo de área para imóveis, em kilometros quadrados.
+     * Nome do ficherio temporário utilizado para detetar alterações no programa
      */
-    private static final double MIN_AREA_KM2 = 0;
+    public static final String NOME_FICH_TMP = "tmp.dat";
     /**
-     * Máximo de área para imóveis, em kilometros quadrados.
+     * Mínimo de área para imóveis, em metros quadrados.
      */
-    private static final double MAX_AREA_KM2 = 10000;
+    private static final double MIN_AREA_M2 = 0;
+    /**
+     * Máximo de área para imóveis, em metros quadrados.
+     */
+    private static final double MAX_AREA_M2 = 10000000;
     /**
      * Máximo de quartos para habitações
      */
@@ -33,7 +39,14 @@ public abstract class ImobiliariaUtils {
      */
     private static final int MAX_PISOS = 5;
 
+    /**
+     * Tamanho mínimo para a palavra-passe de uma imobiliária
+     */
     private static final int MIN_TAM_PW = 5;
+
+    /**
+     * Tamanho máximo para a palavra-passe de uma imobiliária
+     */
     private static final int MAX_TAM_PW = 16;
 
 
@@ -41,6 +54,7 @@ public abstract class ImobiliariaUtils {
      * Função para criar anúncio, solicita-se ao utilizador
      * o tipo de anúncio a ser criado e os dados correspondentes ao anúncio. <br>
      * O anúncio criado é adicionado à lista de anúncios ativos da imobiliária recebida.
+     *
      * @param imobiliaria Imobiliária a ser adicionado o anúncio
      */
     public static void criarAnuncio(Imobiliaria imobiliaria) {
@@ -123,7 +137,7 @@ public abstract class ImobiliariaUtils {
         String nome = Utils.lerString();
 
         System.out.print("Área (M²): ");
-        double area = Utils.lerDouble(MIN_AREA_KM2, MAX_AREA_KM2, "Insira uma área entre " + MIN_AREA_KM2 + " e " + MAX_AREA_KM2 + ": ");
+        double area = Utils.lerDouble(MIN_AREA_M2, MAX_AREA_M2, "Insira uma área entre " + MIN_AREA_M2 + " e " + MAX_AREA_M2 + ": ");
 
         Localizacao localizacao = criarLocalizacao();
 
@@ -232,20 +246,20 @@ public abstract class ImobiliariaUtils {
             case 1 -> {
                 for (Anuncio anuncio : anuncios) {
                     if (anuncio instanceof AnuncioVenda) {
-                        System.out.println("\n" + anuncio.toString());
+                        System.out.println("\n" + anuncio);
                     }
                 }
             }
             case 2 -> {
                 for (Anuncio anuncio : anuncios) {
                     if (anuncio instanceof AnuncioAluguer) {
-                        System.out.println("\n" + anuncio.toString());
+                        System.out.println("\n" + anuncio);
                     }
                 }
             }
             case 3 -> {
                 for (Anuncio anuncio : anuncios) {
-                    System.out.println("\n" + anuncio.toString());
+                    System.out.println("\n" + anuncio);
                 }
             }
         }
@@ -295,6 +309,8 @@ public abstract class ImobiliariaUtils {
         System.out.println("Receita em vendas: " + imobiliaria.getReceitaVendas() + "€");
         System.out.println("Receita em alugueres: " + imobiliaria.getReceitaAlugueres() + "€");
         System.out.println("Total de receitas: " + imobiliaria.getTotalReceitas() + "€");
+        System.out.println("Receita de alugueres prevista: " + imobiliaria.getReceitaPrevistaAlugueres() + "€");
+        System.out.println("Receitas previstas: " + imobiliaria.getTotalReceitasPrevistas() + "€");
         System.out.println();
     }
 
@@ -323,7 +339,6 @@ public abstract class ImobiliariaUtils {
         LinkedList<Imobiliaria> tmp = null;
         try (ObjectInputStream oin = new ObjectInputStream(new FileInputStream(NOME_FICH_IMOBILIARIAS))) {
             tmp = (LinkedList<Imobiliaria>) oin.readObject(); /* objeto a ler do ficheiro */
-            System.out.println("\nImobiliárias carregadas com sucesso!");
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Falha ao carregar dados.");
         }
@@ -335,7 +350,6 @@ public abstract class ImobiliariaUtils {
      * Função para criar uma palavra-passe, é solicitada ao utilizdor a inserção de uma palavra passe. <br>
      * Verifica-se se o comprimento da mesma encontra-se entre um intervalo definido pelas constantes <br>
      * <b>MIN_TAM_PW</b> e <b>MAX_TAM_PW</b>.
-     *
      * @return Palavra-passe introduzida
      */
     public static String criarPalavraPasse() {
@@ -376,6 +390,7 @@ public abstract class ImobiliariaUtils {
     /**
      * Esta função solicita uma palavra-passe ao utilizador e compara a sua hash com a hash <br>
      * da imobiliária passada por parâmetro.
+     *
      * @param imobiliaria Imobiliaria a iniciar sessão
      * @return Verdadeiro se for permitido o acesso, falso se não.
      */
@@ -393,5 +408,74 @@ public abstract class ImobiliariaUtils {
             System.out.println("Palavra-passe incorreta.");
             return false;
         }
+    }
+
+    /**
+     * Esta função apaga uma imobiliária de uma lista de imobiliárias,
+     * é solicitado a palavra passe da imobiliária e uma confirmação para evitar que a imobiliária seja apagada
+     * por engano.
+     *
+     * @param imobiliarias Lista de imobiliárias
+     * @param imobiliaria  Imobiliária a ser removida
+     * @return Verdadeiro se apagou, falso se não apagou
+     */
+    public static boolean apagarImobiliaria(LinkedList<Imobiliaria> imobiliarias, Imobiliaria imobiliaria) {
+        if (iniciarSessao(imobiliaria)) {
+            System.out.print("Está prestes a apagar esta imobiliária, esta ação é automaticamente gravada e irreversível,\nescreva CONFIRMAR para proceder: ");
+            String confirmacao = Utils.lerString();
+            if (confirmacao.equals("CONFIRMAR")) {
+                imobiliarias.remove(imobiliaria);
+                System.out.println("\nImobiliária " + imobiliaria.getDescricao() + " foi removida.\n");
+                return true;
+            } else {
+                System.out.println("Operação de apagar cancelada.");
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Função para verificar se existem diferenças entre uma lista de imobiliárias e a lista armazenada no ficheiro NOME_FICH_IMOBILIARIAS
+     * @param imobiliarias Lista de imobiliaria a ser comparada
+     * @return Verdadeiro se existir diferenças, falso se forem iguais
+     */
+    public static boolean verificarAlteracoesDados(LinkedList<Imobiliaria> imobiliarias) {
+
+        boolean alteracoes = false;
+
+        try {
+            // Abrir ficheiro temporário
+            File tmp = new File(NOME_FICH_TMP);
+
+            if (!tmp.exists()) {
+                tmp.createNewFile();
+            }
+
+            // Obter ficheiro utilizado para guardar os dados do programa.
+            File fichImob = new File(NOME_FICH_IMOBILIARIAS);
+
+            // Gravar os dados das imobiliárias para o ficherio temporário
+            ObjectOutputStream oout = new ObjectOutputStream(new FileOutputStream(tmp));
+            oout.writeObject(imobiliarias);
+            oout.close();
+
+            // Obter hash dos dois ficheiros
+            MessageDigest shaDigest = MessageDigest.getInstance("SHA-256");
+            byte[] tmpHash, fichImobHash;
+            tmpHash = Utils.getFileChecksum(shaDigest, tmp);
+            fichImobHash = Utils.getFileChecksum(shaDigest, fichImob);
+
+            // Se as hash forem diferentes, houveram alterações
+            alteracoes = !Utils.compararHash(tmpHash, fichImobHash);
+
+        } catch (IOException | NoSuchAlgorithmException e) {
+            if (!(e instanceof FileNotFoundException)) {
+                System.out.println("Falha a verificar alterações nos dados.");
+            }
+        }
+
+        return alteracoes;
     }
 }

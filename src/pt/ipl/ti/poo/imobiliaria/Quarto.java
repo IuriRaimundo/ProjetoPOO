@@ -3,6 +3,10 @@ package pt.ipl.ti.poo.imobiliaria;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * Serve para classificar um imóvel como um quarto.
+ * É um imóvel que pode ser alugado.
+ */
 public class Quarto extends Imovel
         implements ImoveisQuePodemSerAlugados, Serializable {
 

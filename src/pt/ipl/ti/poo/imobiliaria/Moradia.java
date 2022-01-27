@@ -3,11 +3,17 @@ package pt.ipl.ti.poo.imobiliaria;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * Uma moradia é uma habitação com vários pisos.
+ */
 public class Moradia extends Habitacao implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Número de pisos do imóvel.
+     */
     private final int pisos;
 
     /**
@@ -42,6 +48,6 @@ public class Moradia extends Habitacao implements Serializable {
 
     @Override
     public String toString() {
-        return "\n\tTipo: Moradia " + "\n" + super.toString() + "\n\tPisos: " + pisos;
+        return "\n\tTipo: Moradia " + "\n" + super.toString() + "\n\tPisos: " + getPisos();
     }
 }

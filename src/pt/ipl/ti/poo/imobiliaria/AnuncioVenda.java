@@ -4,11 +4,18 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Anúncio de venda de um imóvel
+ */
 public class AnuncioVenda extends Anuncio implements Serializable {
-    private ImoveisQuePodemSerVendidos imovel;
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Imóvel listado no anúncio
+     */
+    private final ImoveisQuePodemSerVendidos imovel;
 
     /**
      * Construtor da classe anúncio de venda
@@ -28,10 +35,6 @@ public class AnuncioVenda extends Anuncio implements Serializable {
         return imovel;
     }
 
-    /**
-     * Função para listar os parâmetros no Main
-     * @return do super e do imóvel
-     */
     @Override
     public String toString() {
         return "Anúncio Venda - " + super.toString() + imovel.toString();
@@ -42,12 +45,12 @@ public class AnuncioVenda extends Anuncio implements Serializable {
      * Caso seja necessário efetuar um novo anúncio com outro preço, <br>
      * primeiro deve ser concretizado o anúncio ativo.
      * @param o Anúncio de venda a ser comparado
-     * @return
+     * @return Verdadeiro se forem iguais, falso se forem diferentes.
      */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof AnuncioVenda)) return false;
+        if (!(o instanceof AnuncioVenda)) return false;
         AnuncioVenda anuncio = (AnuncioVenda) o;
         return Objects.equals(imovel, anuncio.getImovel());
     }

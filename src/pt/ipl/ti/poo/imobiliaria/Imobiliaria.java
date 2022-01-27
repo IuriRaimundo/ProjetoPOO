@@ -15,14 +15,40 @@ public class Imobiliaria extends Descritor implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 2L;
+
+    /**
+     * Hash da palavra-passe da imobiliária, é utilizada para efetuar o inicio de sessão.
+     */
     private final byte[] hash;
 
+    /**
+     * Lista de anúncios ativos da imobiliária.
+     */
     private final LinkedList<Anuncio> anunciosAtivos;
+
+    /**
+     * Lista de anúncios concretizados da imobiliária.
+     */
     private final LinkedList<Anuncio> anunciosConcretizados;
 
+    /**
+     * Contador de anúncios de venda ativos.
+     */
     private int contAnunciosVendaAtivos;
+
+    /**
+     * Contador de anúncios de venda concretizados
+     */
     private int contAnunciosVendaConcretizados;
+
+    /**
+     * Contador de anúnios de aluguer ativos.
+     */
     private int contAnunciosAluguerAtivos;
+
+    /**
+     * Contador de anúncios de aluguer concretizados.
+     */
     private int contAnunciosAluguerConcretizados;
 
 
@@ -42,29 +68,33 @@ public class Imobiliaria extends Descritor implements Serializable {
         hash = Utils.hashString(palavraPasse);
     }
 
+    /**
+     * Função para obter a hash da palavra-passe da imobiliária.
+     * @return Hash da imobiliária.
+     */
     public byte[] getHash() {
         return hash;
     }
 
     /**
-     * Função para obter uma cópia da lista dos anúncios ativos
-     * @return Cópia da lista dos anúncios ativos
+     * Função para obter uma cópia da lista dos anúncios ativos.
+     * @return Cópia da lista dos anúncios ativos.
      */
     public LinkedList<Anuncio> getAnunciosAtivos(){
         return new LinkedList<>(anunciosAtivos);
     }
 
     /**
-     * Função para obter uma cópia da lista dos anúncios concretizados
-     * @return Cópia da lista dos anúncios concretizados
+     * Função para obter uma cópia da lista dos anúncios concretizados.
+     * @return Cópia da lista dos anúncios concretizados.
      */
     public LinkedList<Anuncio> getAnunciosConcretizados(){
         return new LinkedList<>(anunciosConcretizados);
     }
 
     /**
-     * Função para obter uma lista apenas dos anúncios de venda ativos
-     * @return Lista dos anúncios de venda ativos
+     * Função para obter uma lista apenas dos anúncios de venda ativos.
+     * @return Lista dos anúncios de venda ativos.
      */
     public LinkedList<AnuncioVenda> getAnunciosVendaAtivos() {
         LinkedList<AnuncioVenda> anunciosVenda = new LinkedList<>();
@@ -257,6 +287,8 @@ public class Imobiliaria extends Descritor implements Serializable {
     /**
      * Função para obter receita dos alugueres até à presente data <br>
      * A formula do cálculo é: <b>Diferença de meses entre a data de concretização e a atual  * Preço do aluguer</b>
+     * Caso a diferença de meses seja superior à duração do aluguer, a fórmula do cálculo é: <br>
+     * <b>Duracao * Preço do aluguer</b>
      * @return Valor das receitas de aluguer
      */
     public double getReceitaAlugueres() {
@@ -265,8 +297,9 @@ public class Imobiliaria extends Descritor implements Serializable {
             Data d1 = anuncio.getDataConcretizacao();
             Data d2 = Data.getDataAtual();
             int mesesPassados = d2.getMes() - d1.getMes() + 12 * (d2.getAno() - d1.getAno()) - (d2.getDia() < d1.getDia() ? 1 : 0);
+            int duracaoAluguer = anuncio.getDuracao();
             if (mesesPassados > 0) {
-                receita += mesesPassados * anuncio.getPreco();
+                receita += (Math.min(mesesPassados, duracaoAluguer)) * anuncio.getPreco();
             }
         }
         return receita;
@@ -309,7 +342,7 @@ public class Imobiliaria extends Descritor implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof Imobiliaria)) return false;
+        if (!(o instanceof Imobiliaria)) return false;
         Imobiliaria imobiliaria = (Imobiliaria) o;
         return getDescricao().equalsIgnoreCase(imobiliaria.getDescricao());
     }
