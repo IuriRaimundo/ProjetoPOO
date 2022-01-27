@@ -289,9 +289,10 @@ public class Main {
                     ImobiliariaUtils.gravarDadosImobiliarias(imobiliarias);
                 }
             }
-        } catch (FileNotFoundException e) {
         } catch (IOException | NoSuchAlgorithmException e) {
-            System.out.println("Falha a verificar alterações nos dados.");
+            if (!(e instanceof FileNotFoundException)) {
+                System.out.println("Falha a verificar alterações nos dados.");
+            }
         }
 
         Utils.fecharScanner();
