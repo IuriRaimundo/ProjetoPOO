@@ -3,10 +3,7 @@ package pt.ipl.ti.poo;
 import pt.ipl.ti.poo.imobiliaria.*;
 import pt.ipl.ti.poo.menu.Menu;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
@@ -292,9 +289,9 @@ public class Main {
                     ImobiliariaUtils.gravarDadosImobiliarias(imobiliarias);
                 }
             }
+        } catch (FileNotFoundException e) {
         } catch (IOException | NoSuchAlgorithmException e) {
             System.out.println("Falha a verificar alterações nos dados.");
-            e.printStackTrace();
         }
 
         Utils.fecharScanner();
