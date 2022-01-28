@@ -442,6 +442,7 @@ public abstract class ImobiliariaUtils {
                 return false;
             }
         } else {
+            System.out.println("Operação de apagar cancelada.");
             return false;
         }
     }
@@ -458,7 +459,6 @@ public abstract class ImobiliariaUtils {
         try {
             // Abrir ficheiro temporário
             File tmp = new File(NOME_FICH_TMP);
-
             if (!tmp.exists()) {
                 tmp.createNewFile();
             }

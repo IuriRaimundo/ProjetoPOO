@@ -21,6 +21,21 @@ public class Main {
      */
     LinkedList<Imobiliaria> imobiliarias = new LinkedList<>();
 
+    /**
+     * Opções do menu de imobiliária
+     */
+    final String[] opcoesMenuImobiliaria = {
+            "Listar anúncios ativos", "Listar anúncios concretizados", "Inserir anúncio",
+            "Registar anúncio como concretizado", "Estatísticas", "Gravar dados", "Terminar sessão",
+            "Apagar imobiliária"
+    };
+
+    /**
+     * Menu da imobiliária
+     */
+    Menu menuImobiliaria = new Menu(opcoesMenuImobiliaria);
+
+
     public Main() {
 
         /*
@@ -143,14 +158,6 @@ public class Main {
             System.out.println("Falha a guardar dados pre-sessão");
         }
 
-        final String[] opcoesMenu = {
-                "Listar anúncios ativos", "Listar anúncios concretizados", "Inserir anúncio",
-                "Registar anúncio como concretizado", "Estatísticas", "Gravar dados", "Terminar sessão",
-                "Apagar imobiliária"
-        };
-
-        Menu menu = new Menu(opcoesMenu);
-
         int escolha;
 
         do {
@@ -158,8 +165,8 @@ public class Main {
             System.out.println("GESTOR IMOBILIÁRIA - " + imobiliariaAtiva.getDescricao());
             System.out.println("-----------------------------");
 
-            menu.apresentar();
-            escolha = menu.obterEscolha();
+            menuImobiliaria.apresentar();
+            escolha = menuImobiliaria.obterEscolha();
 
             switch (escolha) {
                 case 1 -> // Listar anúncios abertos
@@ -244,12 +251,16 @@ public class Main {
         // Eliminar ficheiros temporários
         File tmp = new File(ImobiliariaUtils.NOME_FICH_TMP);
         if (tmp.exists()) {
-           tmp.delete();
+           if (!tmp.delete()) {
+               System.out.println("Falha ao eliminar um dos ficheiros temporários.");
+           }
         }
 
         File imobTmp = new File(ImobiliariaUtils.NOME_FICH_IMOBILIARIAS_TMP);
         if (imobTmp.exists()) {
-            imobTmp.delete();
+            if(!imobTmp.delete()) {
+                System.out.println("Falha ao eliminar um dos ficheiros temporários.");
+            }
         }
 
         Utils.fecharScanner();
