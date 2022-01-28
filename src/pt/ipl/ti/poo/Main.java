@@ -5,7 +5,7 @@ import pt.ipl.ti.poo.imobiliaria.ImobiliariaUtils;
 import pt.ipl.ti.poo.imobiliaria.Localizacao;
 import pt.ipl.ti.poo.menu.Menu;
 
-import java.io.File;
+import java.io.*;
 import java.util.LinkedList;
 
 
@@ -134,6 +134,15 @@ public class Main {
     private void menuImobiliaria() {
         if (imobiliariaAtiva == null) return;
 
+        // Criar backup com os dados para descartar as alterações no fim de uma sessão quando o utilizador opta por não gravar
+        try {
+            ObjectOutputStream oout = new ObjectOutputStream(new FileOutputStream(ImobiliariaUtils.NOME_FICH_IMOBILIARIAS_TMP));
+            oout.writeObject(imobiliariaAtiva);
+            oout.close();
+        } catch (IOException e) {
+            System.out.println("Falha a guardar dados pre-sessão");
+        }
+
         final String[] opcoesMenu = {
                 "Listar anúncios ativos", "Listar anúncios concretizados", "Inserir anúncio",
                 "Registar anúncio como concretizado", "Estatísticas", "Gravar dados", "Terminar sessão",
@@ -170,25 +179,39 @@ public class Main {
                     Verificar se existem alterações entre o estado atual das imobiliárias e os dados das imobiliárias gravados.
                     Se existir diferença, perguntar ao utilizador se ele pretende guardar os dados de forma a não perder as últimas alterações.
 
-                    Caso o utilizador não pretende guardar os dados, as alterações são descartadas e o programa volta aos dados armazenados
-                    na última gravação.
+                    Caso o utilizador não pretende guardar os dados, as alterações são descartadas e o programa volta aos dados guardados no início da sessão.
                      */
                     if (ImobiliariaUtils.verificarAlteracoesDados(imobiliarias)) {
+
                         // Perguntar ao utilizador se pretende guardar os dados
                         boolean gravar = Utils.escolhaBinaria("Existem dados que não foram gravados. Pretende guardar os dados ?");
                         if (gravar) {
                             ImobiliariaUtils.gravarDadosImobiliarias(imobiliarias);
                         } else {
-                            imobiliarias = ImobiliariaUtils.lerFicheiroImobiliaria();
+                            // Voltar aos dados gravados no início da sessão
+                            try {
+                                ObjectInputStream oin = new ObjectInputStream(new FileInputStream(ImobiliariaUtils.NOME_FICH_IMOBILIARIAS_TMP));
+                                Imobiliaria imobiliariaPreSessao = (Imobiliaria) oin.readObject();
+
+                                // Alterar referência da imobiliária da lista com a que tem o estado pre sessão.
+                                for (int i = 0; i < imobiliarias.size(); i++) {
+                                    if (imobiliarias.get(i).equals(imobiliariaPreSessao)) {
+                                        imobiliarias.set(i, imobiliariaPreSessao); // Atualizar referência
+                                    }
+                                }
+                            } catch (IOException | ClassNotFoundException e) {
+                                System.out.println("Erro ao descartar alterações.");
+                            }
                         }
                     }
+
                     imobiliariaAtiva = null;
+
                 }
                 case 8 -> {
                     // Apagar Imobiliária
                     boolean apagou = ImobiliariaUtils.apagarImobiliaria(imobiliarias, imobiliariaAtiva);
-                    if (apagou) {
-                        // Se foi apagada a imobiliária, grava-se os dados para guardar as alterações.
+                    if (apagou) {// Se foi apagada a imobiliária, grava-se os dados para guardar as alterações.
                         ImobiliariaUtils.gravarDadosImobiliarias(imobiliarias);
                         imobiliariaAtiva = null;
                     }
@@ -218,10 +241,15 @@ public class Main {
     private void fecharPrograma() {
         System.out.println("\nA sair do programa...");
 
-        // Eliminar ficheiro temporário caso exista
+        // Eliminar ficheiros temporários
         File tmp = new File(ImobiliariaUtils.NOME_FICH_TMP);
         if (tmp.exists()) {
            tmp.delete();
+        }
+
+        File imobTmp = new File(ImobiliariaUtils.NOME_FICH_IMOBILIARIAS_TMP);
+        if (imobTmp.exists()) {
+            imobTmp.delete();
         }
 
         Utils.fecharScanner();

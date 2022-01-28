@@ -23,6 +23,10 @@ public abstract class ImobiliariaUtils {
      */
     public static final String NOME_FICH_TMP = "tmp.dat";
     /**
+     * Nome do ficheiro temporário utilizado para guardar o estado da imobiliária no inicio de uma sessão
+     */
+    public static final String NOME_FICH_IMOBILIARIAS_TMP = "imobTmp.dat";
+    /**
      * Mínimo de área para imóveis, em metros quadrados.
      */
     private static final double MIN_AREA_M2 = 0;
@@ -38,7 +42,6 @@ public abstract class ImobiliariaUtils {
      * Máximo de pisos para moradias
      */
     private static final int MAX_PISOS = 5;
-
     /**
      * Tamanho mínimo para a palavra-passe de uma imobiliária
      */
@@ -273,6 +276,12 @@ public abstract class ImobiliariaUtils {
      * @param imobiliaria Imobiliaria a ser efetuada a concretização.
      */
     public static void concretizarAnuncio(Imobiliaria imobiliaria) {
+
+        if (imobiliaria.getTotalAnunciosAtivos() == 0) {
+            System.out.println("Não existem anúncios ativos.");
+            return;
+        }
+
         System.out.println("CONCRETIZAR ANÚNCIOS\n\nAnúncios Ativos:\n");
         LinkedList<Anuncio> anunciosAtivos = imobiliaria.getAnunciosAtivos();
 
@@ -323,6 +332,7 @@ public abstract class ImobiliariaUtils {
     public static void gravarDadosImobiliarias(LinkedList<Imobiliaria> imobiliarias) {
         try (ObjectOutputStream oout = new ObjectOutputStream(new FileOutputStream(NOME_FICH_IMOBILIARIAS))) {
             oout.writeObject(imobiliarias); /* objeto a gravar no ficheiro */
+            oout.close();
             System.out.println("Os dados foram guardados com sucesso!");
         } catch (IOException e) {
             System.out.println("Falha ao gravar os dados das imobiliárias.");
